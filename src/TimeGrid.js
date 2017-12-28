@@ -180,15 +180,6 @@ export default class TimeGrid extends Component {
         {this.renderHeader(range, allDayEvents, width)}
 
         <div ref='content' className='rbc-time-content'>
-          
-
-          <TimeColumn
-            {...this.props}
-            showLabels
-            style={{ width }}
-            ref={gutterRef}
-            className='rbc-time-gutter'
-          />
 
           {this.renderEvents(range, rangeEvents, this.props.now)}
 
@@ -243,20 +234,9 @@ export default class TimeGrid extends Component {
         style={style}
       >
         <div className='rbc-row'>
-          <div
-            className='rbc-label rbc-header-gutter'
-            style={{ width }}
-          />
           { this.renderHeaderCells(range) }
         </div>
         <div className='rbc-row'>
-          <div
-            ref={ref => this._gutters[0] = ref}
-            className='rbc-label rbc-header-gutter'
-            style={{ width }}
-          >
-            { message(messages).allDay }
-          </div>
           <DateContentRow
             now={now}
             minRows={2}
