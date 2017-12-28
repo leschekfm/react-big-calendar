@@ -99,9 +99,6 @@ export default class TimeGrid extends Component {
       this.measureGutter()
     }
     this.applyScroll();
-
-    this.positionTimeIndicator();
-    this.triggerTimeIndicatorUpdate();
   }
 
   componentWillUnmount() {
@@ -114,7 +111,6 @@ export default class TimeGrid extends Component {
     }
 
     this.applyScroll();
-    this.positionTimeIndicator();
     //this.checkOverflow()
   }
 
@@ -184,7 +180,7 @@ export default class TimeGrid extends Component {
         {this.renderHeader(range, allDayEvents, width)}
 
         <div ref='content' className='rbc-time-content'>
-          <div ref='timeIndicator' className='rbc-current-time-indicator' />
+          
 
           <TimeColumn
             {...this.props}
@@ -402,38 +398,5 @@ export default class TimeGrid extends Component {
         this._updatingOverflow = false;
       })
     }
-  }
-
-  positionTimeIndicator() {
-    const { rtl, min, max } = this.props
-    const now = new Date();
-
-    const secondsGrid = dates.diff(max, min, 'seconds');
-    const secondsPassed = dates.diff(now, min, 'seconds');
-
-    const timeIndicator = this.refs.timeIndicator;
-    const factor = secondsPassed / secondsGrid;
-    const timeGutter = this._gutters[this._gutters.length - 1];
-
-    if (timeGutter && now >= min && now <= max) {
-      const pixelHeight = timeGutter.offsetHeight;
-      const offset = Math.floor(factor * pixelHeight);
-
-      timeIndicator.style.display = 'block';
-      timeIndicator.style[rtl ? 'left' : 'right'] = 0;
-      timeIndicator.style[rtl ? 'right' : 'left'] = timeGutter.offsetWidth + 'px';
-      timeIndicator.style.top = offset + 'px';
-    } else {
-      timeIndicator.style.display = 'none';
-    }
-  }
-
-  triggerTimeIndicatorUpdate() {
-    // Update the position of the time indicator every minute
-    this._timeIndicatorTimeout = window.setTimeout(() => {
-      this.positionTimeIndicator();
-
-      this.triggerTimeIndicatorUpdate();
-    }, 60000)
   }
 }
